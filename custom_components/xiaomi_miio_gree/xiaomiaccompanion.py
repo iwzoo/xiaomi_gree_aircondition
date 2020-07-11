@@ -1,4 +1,5 @@
 ###################################
+# Jul.11, 2020 - Fixed humidify problem
 # Nov.11, 2019 - HA 0.101.3的兼容性
 # Mar.29, 2019 - 修复风速导致的无法开机问题
 ###################################
@@ -33,7 +34,7 @@ DEVICE_COMMAND_TEMPLATES = {
             
             'tt3': {
                 'Heat': 7,
-                'Dehumidify': 6,
+                'Dehumidify': 5, #6
                 'Cool': 4,
                 'Auto': 11,
                 'Ventilate': 6
@@ -115,6 +116,8 @@ class XiaomiACCompanion(AirConditioningCompanion):
                     wtw += 3
                 elif fan_speed==FanSpeed.Low:
                     wtw += 1
+                if operation_mode==OperationMode.Dehumidify:
+                    wtw = 5
                 if power is Power.Off:
                     wtw = 4
                 configuration = configuration.replace('[wtw]', str(wtw))
